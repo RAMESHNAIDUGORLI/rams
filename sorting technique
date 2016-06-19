@@ -1,0 +1,77 @@
+#include<stdio.h>
+int buildtour(int [], int);
+int minval(int [], int);
+int getnext(int [],int, int);
+int max(int , int);
+int mini(int , int);
+int main()
+{
+	int tour[100],n,i,min_val;
+	printf("Enter a number: ");
+	scanf("%d",&n);
+	for(i=n;i<=2*n-1;i++)
+		scanf("%d",&tour[i]);
+	buildtour(tour,n);
+	min_val=minval(tour,n)-1;
+	printf("sorting order:");
+	for(i=1;i<=n;i++)
+	{
+		printf("%d  ",tour[1]);
+		getnext(tour,n,min_val);
+	}	
+		printf("\n");
+}
+	int getnext(tour,n,min_val)
+	int tour[],n,min_val;	
+	{
+		int i=2;
+		while(i<=2*n-1)
+		{
+			if(tour[i]>tour[i+1])
+			{
+			tour[i]=min_val;
+			i=2*i;
+			}
+			else		     
+			{
+			tour[i+1]=min_val;
+			i=2*(i+1);
+		   	}
+		 }		
+		for(i=i/2;i>1;i=i/2)
+		{
+			if(i%2==0) tour[i/2]=max(tour[i],tour[i+1]);
+			else tour[i/2]=max(tour[i],tour[i-1]);
+		 }
+	}
+	int buildtour(tour,n)
+	int tour[],n;
+	{
+		int i;
+		for(i=2*n-2;i>1;i=i-2)
+		{
+			tour[i/2]=max(tour[i],tour[i+1]);
+		}
+	}
+	int minval(tour,n)
+	int tour[],n;
+	{
+		int minimum,i;
+		minimum=mini(tour[2],tour[3]);
+		for(i=2;i<=2*n-2;i=i+2)
+		{
+			if(tour[i]>tour[i+1]) minimum=mini(tour[i+1],minimum);
+			else minimum=mini(tour[i],minimum);
+		}
+		return minimum;
+	}
+	int max(int i,int j)
+	{
+		if(i>j) return i;
+		else return j;
+	}
+	int mini(int i, int j)
+	{
+		if(i<j) return i;
+		else return j;
+	}
